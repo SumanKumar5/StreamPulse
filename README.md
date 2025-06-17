@@ -28,7 +28,7 @@
 
 ## 🧱 System Architecture
 
-![System Architecture Diagram](./Images/System Architecture.png)
+![System Architecture Diagram](./Images/System_Architecture.png)
 
 ---
 
