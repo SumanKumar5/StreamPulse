@@ -29,33 +29,37 @@
 ## 🧱 System Architecture
 
 ```mermaid
-graph TD
-    subgraph "Data Producers"
-        A[<i class='fa fa-twitter'></i> Twitter API<br>via producer_twitter.py]
-        B[<i class='fa fa-user-secret'></i> Fake Data Generator<br>via fake_producer.py]
-    end
-
-    subgraph "Apache Kafka Cluster"
-        C[<i class='fa fa-random'></i> Topic: raw_tweets]
-        D[<i class='fa fa-check-circle'></i> Topic: analyzed_tweets]
-    end
-
-    subgraph "Kafka Processors (Consumers)"
-        E[<i class='fa fa-cogs'></i> Sentiment Processor<br>Consumes `raw_tweets`<br>Runs RoBERTa model]
-        F[<i class='fa fa-archive'></i> DB Ingestor<br>Consumes `analyzed_tweets`]
-    end
-
-    subgraph "Data Storage & API Backend"
-        G[<i class='fa fa-database'></i> TimescaleDB<br>Hypertables &<br>Continuous Aggregates]
-        H[<i class='fa fa-server'></i> FastAPI Backend]
-    end
-    
-    subgraph "End User & Alerts"
-        I[<i class='fa fa-desktop'></i> User / Postman]
-        J[<i class='fa fa-envelope'></i> Alert Email]
-    end
-
-    %% Data Flow Definition
+---
+config:
+  layout: elk
+  theme: neo-dark
+---
+flowchart TD
+ subgraph subGraph0["Data Producers"]
+        A@{ label: "<i class=\"fa fa-twitter\"></i> Twitter API<br>via producer_twitter.py" }
+        B@{ label: "<i class=\"fa fa-user-secret\"></i> Fake Data Generator<br>via fake_producer.py" }
+  end
+ subgraph subGraph1["Apache Kafka Cluster"]
+        C@{ label: "<i class=\"fa fa-random\"></i> Topic: 'raw_tweets'" }
+        D@{ label: "<i class=\"fa fa-check-circle\"></i> Topic: 'analyzed_tweets'" }
+  end
+ subgraph subGraph2["Kafka Processors (Consumers)"]
+        E@{ label: "<i class=\"fa fa-cogs\"></i> Sentiment Processor<br>Consumes 'raw_tweets'<br>Runs RoBERTa model" }
+        F@{ label: "<i class=\"fa fa-archive\"></i> DB Ingestor<br>Consumes 'analyzed_tweets'" }
+  end
+ subgraph subGraph3["Data Storage & API Backend"]
+        G@{ label: "<i class=\"fa fa-database\"></i> TimescaleDB<br>Hypertables &amp;<br>Continuous Aggregates" }
+        H@{ label: "<i class=\"fa fa-server\"></i> FastAPI Backend" }
+  end
+ subgraph subGraph4["End User & Alerts"]
+        I@{ label: "<i class=\"fa fa-desktop\"></i> User / Postman" }
+        J@{ label: "<i class=\"fa fa-envelope\"></i> Alert Email" }
+  end
+ subgraph subGraph5["FastAPI Internal Logic"]
+    direction LR
+        K["REST & WebSocket APIs"]
+        L["Background Task<br>Alerting Engine"]
+  end
     A --> C
     B --> C
     E -- Produces to --> D
@@ -63,31 +67,37 @@ graph TD
     D -- Consumed by --> F
     F -- Inserts into --> G
     H -- Queries for data --> G
-    
-    subgraph "FastAPI Internal Logic"
-        direction LR
-        K[REST & WebSocket APIs]
-        L[Background Task<br>Alerting Engine]
-    end
-    
     H ---> K & L
-
     L -- Queries DB & triggers --> J
     I -- HTTP/REST Requests --> K
     I -- WebSocket Connection --> K
-
-    %% Styling
+    A@{ shape: rect}
+    B@{ shape: rect}
+    C@{ shape: rect}
+    D@{ shape: rect}
+    E@{ shape: rect}
+    F@{ shape: rect}
+    G@{ shape: rect}
+    H@{ shape: rect}
+    I@{ shape: rect}
+    J@{ shape: rect}
+     A:::producer
+     B:::producer
+     C:::kafka
+     D:::kafka
+     E:::processor
+     F:::processor
+     G:::storageapi
+     H:::storageapi
+     I:::user
+     J:::user
+     K:::storageapi
+     L:::storageapi
     classDef producer fill:#1DA1F2,stroke:#fff,stroke-width:2px,color:#fff
     classDef kafka fill:#231F20,stroke:#fff,stroke-width:2px,color:#fff
     classDef processor fill:#9d3be2,stroke:#fff,stroke-width:2px,color:#fff
     classDef storageapi fill:#05998b,stroke:#fff,stroke-width:2px,color:#fff
     classDef user fill:#333,stroke:#fff,stroke-width:2px,color:#fff
-
-    class A,B producer;
-    class C,D kafka;
-    class E,F processor;
-    class G,H,K,L storageapi;
-    class I,J user;
 ```
 
 ---
