@@ -1,13 +1,13 @@
 # StreamPulse – Real-Time Twitter Sentiment Analyzer
 
-<p align="center">
-  <img src="https://img.shields.io/badge/FastAPI-Backend-blue?style=flat-square&logo=fastapi" />
-  <img src="https://img.shields.io/badge/Kafka-Stream%20Processor-6e5494?style=flat-square&logo=apachekafka" />
-  <img src="https://img.shields.io/badge/TimescaleDB-TimeSeries%20DB-orange?style=flat-square&logo=postgresql" />
-  <img src="https://img.shields.io/badge/Transformer-HuggingFace-yellow?style=flat-square&logo=python" />
-  <img src="https://img.shields.io/badge/Dockerized-Full%20Stack-2496ED?style=flat-square&logo=docker" />
-  <img src="https://img.shields.io/badge/Status-Local%20Demo%20Ready-brightgreen?style=flat-square&logo=github" />
-</p>
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-blue?logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Kafka](https://img.shields.io/badge/Kafka-Stream--Processor-231F20?logo=apachekafka)](https://kafka.apache.org/)
+[![HuggingFace](https://img.shields.io/badge/Transformers-HuggingFace-yellow?logo=huggingface)](https://huggingface.co/)
+[![TimescaleDB](https://img.shields.io/badge/TimescaleDB-Time--Series--DB-orange?logo=postgresql)](https://www.timescale.com/)
+[![Docker](https://img.shields.io/badge/Containerized-Docker-blue?logo=docker)](https://www.docker.com/)
+[![SMTP](https://img.shields.io/badge/Alerts-GmailSMTP-red?logo=gmail)](https://support.google.com/mail/answer/7126229?hl=en)
+[![WebSocket](https://img.shields.io/badge/Realtime-Enabled-purple?logo=websocket)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
 **StreamPulse** is a real-time data pipeline that tracks sentiment on live tweets using Apache Kafka, Hugging Face Transformers, and TimescaleDB. It allows users to analyze public opinion about any keyword (e.g., "Tesla", "Mission Impossible") using REST APIs or WebSocket streams.
 
@@ -166,9 +166,9 @@ uvicorn main:app --reload
 
 ## 📬 Alerting System
 
-- ✅ Runs in background task via `main.py`
-- ✅ Sends email when `avg_score` drops below threshold
-- ✅ SMTP support via Gmail (configurable in `.env`)
+-  Runs in background task via `main.py`
+-  Sends email when `avg_score` drops below threshold
+-  SMTP support via Gmail (configurable in `.env`)
 
 ---
 
@@ -182,7 +182,7 @@ uvicorn main:app --reload
 
 ## 📃 License
 
-MIT License
+[MIT License](./LICENSE) 
 
 ---
 
