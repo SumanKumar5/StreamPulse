@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+psycopg2-binary
+python-dotenv
+websockets
+python-jose[cryptography]
+loguru
+tenacity
