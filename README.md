@@ -26,18 +26,68 @@
 
 ---
 
-## 🧱 Architecture
+## 🧱 System Architecture
 
-```
-+-------------+       +-------------+       +-------------------+       +-------------+
-| Twitter API | ====> | Kafka Topic | ====> | Sentiment Consumer| ====> | TimescaleDB |
-+-------------+       +-------------+       +-------------------+       +-------------+
-       |                                                        |
-       |                                                        v
-       |                                                +---------------+
-       +--- fallback --> fake_producer.py               | FastAPI + WS  |
-                                                        +---------------+
-```
+```mermaid
+graph TD
+    subgraph "Data Producers"
+        A[<i class='fa fa-twitter'></i> Twitter API<br>via producer_twitter.py]
+        B[<i class='fa fa-user-secret'></i> Fake Data Generator<br>via fake_producer.py]
+    end
+
+    subgraph "Apache Kafka Cluster"
+        C[<i class='fa fa-random'></i> Topic: raw_tweets]
+        D[<i class='fa fa-check-circle'></i> Topic: analyzed_tweets]
+    end
+
+    subgraph "Kafka Processors (Consumers)"
+        E[<i class='fa fa-cogs'></i> Sentiment Processor<br>Consumes `raw_tweets`<br>Runs RoBERTa model]
+        F[<i class='fa fa-archive'></i> DB Ingestor<br>Consumes `analyzed_tweets`]
+    end
+
+    subgraph "Data Storage & API Backend"
+        G[<i class='fa fa-database'></i> TimescaleDB<br>Hypertables &<br>Continuous Aggregates]
+        H[<i class='fa fa-server'></i> FastAPI Backend]
+    end
+    
+    subgraph "End User & Alerts"
+        I[<i class='fa fa-desktop'></i> User / Postman]
+        J[<i class='fa fa-envelope'></i> Alert Email]
+    end
+
+    %% Data Flow Definition
+    A --> C
+    B --> C
+    E -- Produces to --> D
+    C -- Consumed by --> E
+    D -- Consumed by --> F
+    F -- Inserts into --> G
+    H -- Queries for data --> G
+    
+    subgraph "FastAPI Internal Logic"
+        direction LR
+        K[REST & WebSocket APIs]
+        L[Background Task<br>Alerting Engine]
+    end
+    
+    H ---> K & L
+
+    L -- Queries DB & triggers --> J
+    I -- HTTP/REST Requests --> K
+    I -- WebSocket Connection --> K
+
+    %% Styling
+    classDef producer fill:#1DA1F2,stroke:#fff,stroke-width:2px,color:#fff
+    classDef kafka fill:#231F20,stroke:#fff,stroke-width:2px,color:#fff
+    classDef processor fill:#9d3be2,stroke:#fff,stroke-width:2px,color:#fff
+    classDef storageapi fill:#05998b,stroke:#fff,stroke-width:2px,color:#fff
+    classDef user fill:#333,stroke:#fff,stroke-width:2px,color:#fff
+
+    class A,B producer;
+    class C,D kafka;
+    class E,F processor;
+    class G,H,K,L storageapi;
+    class I,J user;
 
 ---
 
