@@ -7,7 +7,6 @@
 [![TimescaleDB](https://img.shields.io/badge/TimescaleDB-Time--Series--DB-orange?logo=postgresql)](https://www.timescale.com/)
 [![Docker](https://img.shields.io/badge/Containerized-Docker-blue?logo=docker)](https://www.docker.com/)
 [![SMTP](https://img.shields.io/badge/Alerts-GmailSMTP-red?logo=gmail)](https://support.google.com/mail/answer/7126229?hl=en)
-[![WebSocket](https://img.shields.io/badge/Realtime-Enabled-purple?logo=websocket)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
 **StreamPulse** is a real-time data pipeline that tracks sentiment on live tweets using Apache Kafka, Hugging Face Transformers, and TimescaleDB. It allows users to analyze public opinion about any keyword (e.g., "Tesla", "Mission Impossible") using REST APIs or WebSocket streams.
 
@@ -105,7 +104,7 @@ StreamPulse/
 
 ```bash
 git clone https://github.com/SumanKumar5/StreamPulse.git
-cd streampulse
+cd StreamPulse
 ```
 
 #### 2️⃣ Start Kafka, Zookeeper & TimescaleDB
